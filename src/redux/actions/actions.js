@@ -17,3 +17,15 @@ export const setUserFailure = (error) => {
         payload: error,
     }
 }
+
+export const loadingArticle = () => {
+    return {
+        type: actionTypes.LOADING_ARTICALS,
+    }
+}
+export const getArticle = (payload) => {
+    return {
+        type: actionTypes.GET_ARTICLES,
+        payload: payload,
+    }
+}

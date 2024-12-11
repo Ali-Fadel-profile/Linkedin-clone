@@ -1,0 +1,3 @@
+export const SET_USER_SUCCESS = "SET_USER_SUCCESS"
+export const SET_USER_FAILURE = "SET_USER_FAILURE"
+export const LOADING_USER = "LOADING_USER"

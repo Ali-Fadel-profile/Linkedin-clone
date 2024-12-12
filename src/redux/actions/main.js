@@ -2,7 +2,7 @@ import { auth, db, provider, storage } from "@/firebase"
 import * as actions from "./actions"
 import { signInWithPopup } from "firebase/auth"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
-import { addDoc, collection } from "firebase/firestore"
+import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore"
 
 export function signInApi() {
     return (dispatch) => {
@@ -86,11 +86,23 @@ export const postArticleApi = (payload) => {
             await addDoc(collRef, articleData);
 
             console.log("Article added successfully!");
-            dispatch(actions.loadingArticle(false));
         } catch (error) {
             console.error("Error adding article: ", error.message);
             alert("Failed to post the article: " + error.message);
+        } finally {
             dispatch(actions.loadingArticle(false));
         }
     };
 };
+
+export const getArticlesApi = () => {
+    return (dispatch) => {
+        let payload;
+        const collRef = collection(db, "articles");
+        const orderRef = query(collRef, orderBy("user.date", "desc"));
+        onSnapshot(orderRef, (snapshot) => {
+            payload = snapshot.docs.map((doc) => doc.data())
+            dispatch(actions.getArticle(payload))
+        })
+    }
+}

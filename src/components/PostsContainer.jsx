@@ -24,12 +24,12 @@ function PostsContainer() {
               <Article key={index}>
                 <SharedActor>
                   <a>
-                    <img src={article.actor.image} />
+                    <img src={article.user.image} />
                     <div>
-                      <span>{article.actor.title}</span>
-                      <span>{article.actor.description}</span>
+                      <span>{article.user.title}</span>
+                      <span>{article.user.description}</span>
                       <span>
-                        {article.actor.date.toDate().toLocaleDateString()}
+                        {article.user.date.toDate().toLocaleDateString()}
                       </span>
                     </div>
                   </a>

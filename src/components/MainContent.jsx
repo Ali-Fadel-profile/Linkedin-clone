@@ -1,20 +1,23 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import userIcon from "@images/user.svg";
 import Photo from "@images/photo-icon.svg";
 import video from "@images/video-icon.svg";
 import artical from "@images/article-icon.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostModal from "./PostModal";
 import PostsContainer from "./PostsContainer";
+import { getArticlesApi } from "@/redux/actions/main";
 export default function MainContent() {
   const [showModal, setShowModal] = useState(false);
   const user = useSelector((state) => state.userState.user);
   const loading = useSelector((state) => state.articalesState.loading);
-
+  const dispatch = useDispatch();
   const addPostHandler = () => {
     setShowModal(!showModal);
   };
+
+  useEffect(() => dispatch(getArticlesApi()), []);
 
   return (
     <Container>

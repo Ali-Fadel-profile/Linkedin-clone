@@ -5,7 +5,7 @@ import cardBgPlaceholder from "@images/card-bg.svg";
 export default function Sidebar() {
   const user = useSelector((state) => state.userState.user);
 
-  const userImage = user.photoURL;
+  const userImage = user?.photoURL;
   return (
     <SidebarContainer>
       <UserInfo>

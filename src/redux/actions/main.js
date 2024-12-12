@@ -1,6 +1,8 @@
-import { auth, provider } from "@/firebase"
+import { auth, db, provider, storage } from "@/firebase"
 import * as actions from "./actions"
 import { signInWithPopup } from "firebase/auth"
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
+import { addDoc, collection } from "firebase/firestore"
 
 export function signInApi() {
     return (dispatch) => {
@@ -31,3 +33,64 @@ export const signOut = () => {
         })
     }
 }
+
+export const postArticleApi = (payload) => {
+    return async (dispatch) => {
+        try {
+            dispatch(actions.loadingArticle(true));
+
+            let shareImg = "";
+            if (payload.image) {
+                // Upload the image
+                const storageRef = ref(storage, `images/${payload.image.name}`);
+                const uploadRef = uploadBytesResumable(storageRef, payload.image);
+
+                await new Promise((resolve, reject) => {
+                    uploadRef.on(
+                        "state_changed",
+                        (snapshot) => {
+                            const progress = Math.round(
+                                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                            );
+                            console.log("Upload is " + progress + "% done");
+                        },
+                        (error) => reject(error),
+                        () => {
+                            getDownloadURL(uploadRef.snapshot.ref)
+                                .then((url) => {
+                                    shareImg = url;
+                                    resolve();
+                                })
+                                .catch((error) => reject(error));
+                        }
+                    );
+                });
+            }
+
+            // Prepare the article data
+            const articleData = {
+                user: {
+                    email: payload.user.email,
+                    title: payload.user.displayName,
+                    date: payload.timeStamp,
+                    image: payload.user.photoURL,
+                },
+                comments: 0,
+                video: payload.video || null,
+                description: payload.description,
+                shareImg: shareImg || null,
+            };
+
+            // Add the article to Firestore
+            const collRef = collection(db, "articles");
+            await addDoc(collRef, articleData);
+
+            console.log("Article added successfully!");
+            dispatch(actions.loadingArticle(false));
+        } catch (error) {
+            console.error("Error adding article: ", error.message);
+            alert("Failed to post the article: " + error.message);
+            dispatch(actions.loadingArticle(false));
+        }
+    };
+};

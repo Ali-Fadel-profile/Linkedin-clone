@@ -4,8 +4,17 @@ import userIcon from "@images/user.svg";
 import Photo from "@images/photo-icon.svg";
 import video from "@images/video-icon.svg";
 import artical from "@images/article-icon.svg";
+import { useState } from "react";
+import PostModal from "./PostModal";
 export default function MainContent() {
+  const [showModal, setShowModal] = useState(false);
   const user = useSelector((state) => state.userState.user);
+  const loading = useSelector((state) => state.articalesState.loading);
+
+  const addPostHandler = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <Container>
       {" "}
@@ -16,7 +25,9 @@ export default function MainContent() {
           ) : (
             <img src={userIcon} alt="" />
           )}
-          <button>Start a post</button>
+          <button onClick={addPostHandler} disabled={loading}>
+            Start a post
+          </button>
         </div>
         <div>
           <button>
@@ -33,6 +44,7 @@ export default function MainContent() {
           </button>
         </div>
       </ShareBox>{" "}
+      <PostModal showModal={showModal} closeModal={addPostHandler} />
     </Container>
   );
 }

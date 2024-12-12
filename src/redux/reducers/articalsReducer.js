@@ -10,7 +10,7 @@ export const articalsReducer = (state = intialState, action) => {
         case actions.LOADING_ARTICALS:
             return {
                 ...state,
-                loading: true,
+                loading: action.payload,
             }
         case actions.GET_ARTICLES:
             return {

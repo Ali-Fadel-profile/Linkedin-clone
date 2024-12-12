@@ -5,6 +5,6 @@ import { articalsReducer } from "../reducers/articalsReducer";
 
 const rootReducers = combineReducers({
     userState: userReducer,
-    articalsState: articalsReducer,
+    articalesState: articalsReducer,
 })
 export const store = createStore(rootReducers, applyMiddleware(thunk));

@@ -6,6 +6,7 @@ import video from "@images/video-icon.svg";
 import artical from "@images/article-icon.svg";
 import { useState } from "react";
 import PostModal from "./PostModal";
+import PostsContainer from "./PostsContainer";
 export default function MainContent() {
   const [showModal, setShowModal] = useState(false);
   const user = useSelector((state) => state.userState.user);
@@ -44,6 +45,7 @@ export default function MainContent() {
           </button>
         </div>
       </ShareBox>{" "}
+      <PostsContainer />
       <PostModal showModal={showModal} closeModal={addPostHandler} />
     </Container>
   );

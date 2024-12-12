@@ -2,7 +2,7 @@ import * as actions from "@redux/actions/actionTypes"
 
 const intialState = {
     loading: false,
-    articals: [],
+    articles: [],
 }
 
 export const articalsReducer = (state = intialState, action) => {
@@ -15,7 +15,7 @@ export const articalsReducer = (state = intialState, action) => {
         case actions.GET_ARTICLES:
             return {
                 loading: false,
-                user: action.payload,
+                articles: action.payload,
             }
         default:
             return state;

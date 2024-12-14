@@ -2,18 +2,11 @@ import styled from "styled-components";
 import loginLogo from "@images/login-logo.svg";
 import loginHero from "@images/login-hero.svg";
 import googleLogo from "@images/google.svg";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signInApi } from "@/redux/actions/main";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
-function Login() {
+function Welcome() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userState.user);
-  const navigate = useNavigate();
-  useEffect(() => {
-    user && navigate("/home");
-  }, [user]);
 
   return (
     <Container>
@@ -23,8 +16,8 @@ function Login() {
           <img src={loginLogo} alt="Login logo image" />
         </a>
         <div>
-          <Join>Join now</Join>
-          <SignIn>Sign in</SignIn>
+          <Join href="/signup">Join now</Join>
+          <SignIn href="/signin">Sign in</SignIn>
         </div>
       </Nav>
       <Section>
@@ -46,7 +39,7 @@ function Login() {
   );
 }
 
-export default Login;
+export default Welcome;
 const Container = styled.div`
   padding: 0 16px;
   max-width: 1128px;

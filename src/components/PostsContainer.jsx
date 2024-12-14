@@ -178,6 +178,9 @@ const SharedImg = styled.div`
   diplay: block;
   position: relative;
   background-color: #f9fafb;
+  a {
+    width: 100%;
+  }
   img {
     object-fit: contain;
     width: 100%;

@@ -10,10 +10,12 @@ import PostsContainer from "./PostsContainer";
 import { getArticlesApi } from "@/redux/actions/main";
 export default function MainContent() {
   const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
   const user = useSelector((state) => state.userState.user);
   const loading = useSelector((state) => state.articalesState.loading);
   const dispatch = useDispatch();
-  const addPostHandler = () => {
+  const addPostHandler = (type) => {
+    setModalType(type);
     setShowModal(!showModal);
   };
 
@@ -29,27 +31,32 @@ export default function MainContent() {
           ) : (
             <img src={userIcon} alt="" />
           )}
-          <button onClick={addPostHandler} disabled={loading}>
+          <button onClick={() => addPostHandler("")} disabled={loading}>
             Start a post
           </button>
         </div>
         <div>
-          <button>
+          <button onClick={() => addPostHandler("image")}>
             <img src={Photo} alt="photo icon" />
             <span>Photo</span>
           </button>
-          <button>
+          <button onClick={() => addPostHandler("media")}>
             <img src={video} alt="video icon" />
             <span>Video</span>
           </button>
-          <button>
+          <button onClick={addPostHandler}>
             <img src={artical} alt="articale icon" />
             <span>Write article</span>
           </button>
         </div>
       </ShareBox>{" "}
       <PostsContainer />
-      <PostModal showModal={showModal} closeModal={addPostHandler} />
+      <PostModal
+        showModal={showModal}
+        modalType={modalType}
+        closeModal={addPostHandler}
+        setModalType={setModalType}
+      />
     </Container>
   );
 }

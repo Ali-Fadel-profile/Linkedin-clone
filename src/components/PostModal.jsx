@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import userIcon from "@images/user.svg";
@@ -9,7 +9,7 @@ import ReactPlayer from "react-player";
 import { Timestamp } from "firebase/firestore";
 import { postArticleApi } from "@redux/actions/main";
 
-function PostModal({ showModal, closeModal }) {
+function PostModal({ showModal, modalType, closeModal }) {
   const [editorText, setEditorText] = useState("");
   const [assetArea, setAssetArea] = useState("");
   const [shareImage, setShareImage] = useState("");
@@ -17,10 +17,15 @@ function PostModal({ showModal, closeModal }) {
   const { user } = useSelector((state) => state.userState);
   const dispatch = useDispatch();
 
+  useEffect(() => setAssetArea(modalType), [modalType]);
+
   const closeModalHandler = () => {
+    console.log("clicked");
+
     setAssetArea("");
     setEditorText("");
     setShareImage("");
+    setVideoLink("");
     closeModal();
   };
 
@@ -154,7 +159,7 @@ const Container = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 9999;
   color: black;
   background-color: rgba(0, 0, 0, 0.8);
@@ -164,14 +169,12 @@ const Content = styled.div`
   width: 100%;
   max-width: 552px;
   background-color: white;
-  max-height: 99%;
+  max-height: 95%;
   overflow: initial;
   border-radius: 5px;
-  position: relative;
   display: flex;
   flex-direction: column;
-  top: 32px;
-  margin: 0 auto;
+  margin: 20px auto;
   button {
     border: none;
     display: flex;
@@ -278,6 +281,7 @@ const PostButton = styled.button`
 `;
 const Editor = styled.div`
   padding: 12px 24px;
+  max-height: 80vh;
   textarea {
     width: 100%;
     min-height: 100px;

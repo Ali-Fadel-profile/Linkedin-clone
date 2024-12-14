@@ -1,16 +1,29 @@
 import { auth, db, provider, storage } from "@/firebase"
 import * as actions from "./actions"
-import { signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore"
 
 export function signInApi() {
+
     return (dispatch) => {
         signInWithPopup(auth, provider).then((resolved) => {
             dispatch(actions.setUserSuccess(resolved.user))
         }).catch((error) => {
             dispatch(actions.setUserFailure(error.message))
         })
+    }
+}
+
+export function registerUser(email, password) {
+    return async (dispatch) => {
+        dispatch(actions.loadingUser);
+        try {
+            const user = await createUserWithEmailAndPassword(auth, email, password);
+            dispatch(actions.setUserSuccess(user));
+        } catch (error) {
+            dispatch(actions.setUserFailure(error.message));
+        }
     }
 }
 

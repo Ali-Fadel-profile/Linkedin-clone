@@ -2,6 +2,9 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import imagePlaceholder from "@images/photo.svg";
 import cardBgPlaceholder from "@images/card-bg.svg";
+import bookmark from "@images/bookmark.svg";
+import group from "@images/group.png";
+import event from "@images/event.png";
 export default function Sidebar() {
   const user = useSelector((state) => state.userState.user);
 
@@ -16,9 +19,19 @@ export default function Sidebar() {
         </a>
       </UserInfo>
       <Navigation>
-        <NavItem>Saved Items</NavItem>
-        <NavItem>Groups</NavItem>
-        <NavItem>Events</NavItem>
+        <NavItem>
+          <img src={bookmark} alt="bookmark icon" /> <span>Saved Items</span>
+        </NavItem>
+        <NavItem>
+          {" "}
+          <img src={group} alt="group icon" />
+          <span>Groups</span>
+        </NavItem>
+        <NavItem>
+          {" "}
+          <img src={event} alt="event icon" />
+         <span>Events</span> 
+        </NavItem>
       </Navigation>
     </SidebarContainer>
   );
@@ -81,4 +94,11 @@ const Navigation = styled.div`
 const NavItem = styled.div`
   padding: 8px;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  img {
+    width: 16px;
+    height: 16px;
+  }
 `;

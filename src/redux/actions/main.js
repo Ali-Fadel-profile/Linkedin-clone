@@ -17,7 +17,7 @@ export function signInApi() {
 
 export function registerUser(email, password) {
     return async (dispatch) => {
-        dispatch(actions.loadingUser);
+        dispatch(actions.loadingUser());
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password);
             dispatch(actions.setUserSuccess(user));

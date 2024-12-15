@@ -4,10 +4,12 @@ import { registerUser, signInApi } from "@/redux/actions/main";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Error from "@/components/Error";
 
 export default function SignUp() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.userState);
+  const { user, error, loading } = useSelector((state) => state.userState);
   const navigate = useNavigate();
   const INITIAL_FORM = {
     email: "",
@@ -19,6 +21,10 @@ export default function SignUp() {
       navigate("/home");
     }
   }, [user]);
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <Error errorMessage={error} />;
+
   const emailChangeHandler = (event) => {
     setFormState((prevState) => {
       return {

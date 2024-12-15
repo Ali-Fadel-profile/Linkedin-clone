@@ -16,8 +16,8 @@ function Welcome() {
           <img src={loginLogo} alt="Login logo image" />
         </a>
         <div>
-          <Join href="/signup">Join now</Join>
-          <SignIn href="/signin">Sign in</SignIn>
+          {/* <Join href="/signup">Join now</Join>
+          <SignIn href="/signin">Sign in</SignIn> */}
         </div>
       </Nav>
       <Section>

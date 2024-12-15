@@ -1,4 +1,4 @@
-import { auth, db, provider, storage } from "@/firebase"
+import { auth, db, provider, } from "@/firebase"
 import * as actions from "./actions"
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore"

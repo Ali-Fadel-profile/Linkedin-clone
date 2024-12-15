@@ -10,11 +10,12 @@ import send from "@images/send-icon.svg";
 
 function PostsContainer() {
   const { articles, loading } = useSelector((state) => state.articalesState);
+  console.log(articles);
 
   return (
     <Content>
       {loading && <img src={loader} alt="loader image" />}
-      {!loading && articles.length === 0 && <p>There are no articles</p>}
+      {!loading && articles.length === 0 && <p>Add the first post now!</p>}
       {articles.length > 0 &&
         articles.map((article, index) => (
           <Article key={index}>
@@ -33,16 +34,19 @@ function PostsContainer() {
             </SharedActor>
             <Description>{article.description}</Description>
             <SharedImg>
-              <a>
-                {!article.shareImg && article.video ? (
-                  <ReactPlayer width="100%" url={article.video} />
-                ) : (
-                  article.shareImg && <img src={article.shareImg} />
-                )}
-              </a>
+              {article.video && (
+                <a>
+                  <ReactPlayer width="100%" controls url={article.video} />
+                </a>
+              )}
+              {article.shareImg && (
+                <a>
+                  <img src={article.shareImg} />{" "}
+                </a>
+              )}
             </SharedImg>
             <SocialCounts>
-              <li>
+              {/* <li>
                 <button>
                   <img
                     src="https://static-exp1.licdn.com/sc/h/2uxqgankkcxm505qn812vqyss"
@@ -60,7 +64,7 @@ function PostsContainer() {
               </li>
               <li>
                 <a>1 share</a>
-              </li>
+              </li> */}
             </SocialCounts>
             <SocialActions>
               <button>

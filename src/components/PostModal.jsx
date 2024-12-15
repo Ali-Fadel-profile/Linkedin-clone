@@ -20,8 +20,6 @@ function PostModal({ showModal, modalType, closeModal }) {
   useEffect(() => setAssetArea(modalType), [modalType]);
 
   const closeModalHandler = () => {
-    console.log("clicked");
-
     setAssetArea("");
     setEditorText("");
     setShareImage("");
@@ -33,16 +31,6 @@ function PostModal({ showModal, modalType, closeModal }) {
     setShareImage("");
     setVideoLink("");
     setAssetArea(area);
-  };
-
-  const addImageHandler = (event) => {
-    const image = event.target.files[0];
-    if (image === "" || image === undefined) {
-      alert(`not an image , the file is a ${typeof image}`);
-      return;
-    } else {
-      setShareImage(image);
-    }
   };
 
   const postArticaleHandler = (event) => {
@@ -89,27 +77,13 @@ function PostModal({ showModal, modalType, closeModal }) {
                 {assetArea === "image" ? (
                   <UploadImage>
                     <input
-                      type="file"
-                      name="image"
-                      id="file"
-                      style={{ display: "none" }}
-                      onChange={addImageHandler}
+                      style={{ width: "100%", height: "30px" }}
+                      type="text"
+                      value={shareImage}
+                      onChange={(e) => setShareImage(e.target.value)}
+                      placeholder="Please input an image link"
                     />
-                    <p>
-                      <label
-                        style={{
-                          cursor: "pointer",
-                          display: "block",
-                          marginBottom: "15px",
-                        }}
-                        htmlFor="file"
-                      >
-                        Select an image to share
-                      </label>
-                    </p>
-                    {shareImage && (
-                      <img src={URL.createObjectURL(shareImage)} alt="img" />
-                    )}
+                    {shareImage && <img src={shareImage} alt="img" />}
                   </UploadImage>
                 ) : (
                   assetArea === "media" && (
@@ -122,7 +96,7 @@ function PostModal({ showModal, modalType, closeModal }) {
                         placeholder="Please input a video link"
                       />
                       {videoLink && (
-                        <ReactPlayer width="100%" url={videoLink} />
+                        <ReactPlayer width="100%" controls url={videoLink} />
                       )}
                     </>
                   )

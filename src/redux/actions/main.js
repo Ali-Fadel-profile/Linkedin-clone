@@ -1,7 +1,6 @@
 import { auth, db, provider, storage } from "@/firebase"
 import * as actions from "./actions"
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore"
 
 export function signInApi() {
@@ -50,35 +49,7 @@ export const signOut = () => {
 export const postArticleApi = (payload) => {
     return async (dispatch) => {
         try {
-            dispatch(actions.loadingArticle(true));
-
-            let shareImg = "";
-            if (payload.image) {
-                // Upload the image
-                const storageRef = ref(storage, `images/${payload.image.name}`);
-                const uploadRef = uploadBytesResumable(storageRef, payload.image);
-
-                await new Promise((resolve, reject) => {
-                    uploadRef.on(
-                        "state_changed",
-                        (snapshot) => {
-                            const progress = Math.round(
-                                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                            );
-                            console.log("Upload is " + progress + "% done");
-                        },
-                        (error) => reject(error),
-                        () => {
-                            getDownloadURL(uploadRef.snapshot.ref)
-                                .then((url) => {
-                                    shareImg = url;
-                                    resolve();
-                                })
-                                .catch((error) => reject(error));
-                        }
-                    );
-                });
-            }
+            dispatch(actions.loadingArticle());
 
             // Prepare the article data
             const articleData = {
@@ -91,19 +62,15 @@ export const postArticleApi = (payload) => {
                 comments: 0,
                 video: payload.video || null,
                 description: payload.description,
-                shareImg: shareImg || null,
+                shareImg: payload.image || null,
             };
 
             // Add the article to Firestore
             const collRef = collection(db, "articles");
             await addDoc(collRef, articleData);
 
-            console.log("Article added successfully!");
         } catch (error) {
-            console.error("Error adding article: ", error.message);
             alert("Failed to post the article: " + error.message);
-        } finally {
-            dispatch(actions.loadingArticle(false));
         }
     };
 };

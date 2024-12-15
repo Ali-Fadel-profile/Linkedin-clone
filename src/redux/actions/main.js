@@ -110,6 +110,7 @@ export const postArticleApi = (payload) => {
 
 export const getArticlesApi = () => {
     return (dispatch) => {
+        dispatch(actions.loadingArticle())
         let payload;
         const collRef = collection(db, "articles");
         const orderRef = query(collRef, orderBy("user.date", "desc"));

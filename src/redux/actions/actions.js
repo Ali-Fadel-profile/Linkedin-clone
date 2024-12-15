@@ -18,10 +18,9 @@ export const setUserFailure = (error) => {
     }
 }
 
-export const loadingArticle = (state) => {
+export const loadingArticle = () => {
     return {
         type: actionTypes.LOADING_ARTICALS,
-        payload: state
     }
 }
 export const getArticle = (payload) => {

@@ -12,85 +12,77 @@ function PostsContainer() {
   const { articles, loading } = useSelector((state) => state.articalesState);
 
   return (
-    <>
-      {" "}
-      {articles.length === 0 ? (
-        <p>There are no articles</p>
-      ) : (
-        <Content>
-          {loading && <img src={loader} alt="loader image" />}
-          {articles.length > 0 &&
-            articles.map((article, index) => (
-              <Article key={index}>
-                <SharedActor>
-                  <a>
-                    <img src={article.user.image} />
-                    <div>
-                      <span>{article.user.title}</span>
-                      <span>{article.user.description}</span>
-                      <span>
-                        {article.user.date.toDate().toLocaleDateString()}
-                      </span>
-                    </div>
-                  </a>
-                  <button>
-                    <img src={ellipsis} alt="ellipsis image" />
-                  </button>
-                </SharedActor>
-                <Description>{article.description}</Description>
-                <SharedImg>
-                  <a>
-                    {!article.shareImg && article.video ? (
-                      <ReactPlayer width="100%" url={article.video} />
-                    ) : (
-                      article.shareImg && <img src={article.shareImg} />
-                    )}
-                  </a>
-                </SharedImg>
-                <SocialCounts>
-                  <li>
-                    <button>
-                      <img
-                        src="https://static-exp1.licdn.com/sc/h/2uxqgankkcxm505qn812vqyss"
-                        alt=""
-                      />
-                      <img
-                        src="https://static-exp1.licdn.com/sc/h/f58e354mjsjpdd67eq51cuh49"
-                        alt=""
-                      />
-                      <span>75</span>
-                    </button>
-                  </li>
-                  <li>
-                    <a>{article.comments} comments</a>
-                  </li>
-                  <li>
-                    <a>1 share</a>
-                  </li>
-                </SocialCounts>
-                <SocialActions>
-                  <button>
-                    <img src={like} alt="like icon" />
-                    <span>Like</span>
-                  </button>
-                  <button>
-                    <img src={comment} alt="comment icon" />
-                    <span>Comment</span>
-                  </button>
-                  <button>
-                    <img src={share} alt="share icon" />
-                    <span>Share</span>
-                  </button>
-                  <button>
-                    <img src={send} alt="send icon" />
-                    <span>Send</span>
-                  </button>
-                </SocialActions>
-              </Article>
-            ))}
-        </Content>
-      )}
-    </>
+    <Content>
+      {loading && <img src={loader} alt="loader image" />}
+      {!loading && articles.length === 0 && <p>There are no articles</p>}
+      {articles.length > 0 &&
+        articles.map((article, index) => (
+          <Article key={index}>
+            <SharedActor>
+              <a>
+                <img src={article.user.image} />
+                <div>
+                  <span>{article.user.title}</span>
+                  <span>{article.user.description}</span>
+                  <span>{article.user.date.toDate().toLocaleDateString()}</span>
+                </div>
+              </a>
+              <button>
+                <img src={ellipsis} alt="ellipsis image" />
+              </button>
+            </SharedActor>
+            <Description>{article.description}</Description>
+            <SharedImg>
+              <a>
+                {!article.shareImg && article.video ? (
+                  <ReactPlayer width="100%" url={article.video} />
+                ) : (
+                  article.shareImg && <img src={article.shareImg} />
+                )}
+              </a>
+            </SharedImg>
+            <SocialCounts>
+              <li>
+                <button>
+                  <img
+                    src="https://static-exp1.licdn.com/sc/h/2uxqgankkcxm505qn812vqyss"
+                    alt=""
+                  />
+                  <img
+                    src="https://static-exp1.licdn.com/sc/h/f58e354mjsjpdd67eq51cuh49"
+                    alt=""
+                  />
+                  <span>75</span>
+                </button>
+              </li>
+              <li>
+                <a>{article.comments} comments</a>
+              </li>
+              <li>
+                <a>1 share</a>
+              </li>
+            </SocialCounts>
+            <SocialActions>
+              <button>
+                <img src={like} alt="like icon" />
+                <span>Like</span>
+              </button>
+              <button>
+                <img src={comment} alt="comment icon" />
+                <span>Comment</span>
+              </button>
+              <button>
+                <img src={share} alt="share icon" />
+                <span>Share</span>
+              </button>
+              <button>
+                <img src={send} alt="send icon" />
+                <span>Send</span>
+              </button>
+            </SocialActions>
+          </Article>
+        ))}
+    </Content>
   );
 }
 
